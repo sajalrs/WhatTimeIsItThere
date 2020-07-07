@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
+import java.util.*
 
 class WhenaboutListFragment : Fragment() {
 
@@ -22,8 +23,15 @@ class WhenaboutListFragment : Fragment() {
         val binding: FragmentWhenaboutListBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
+        val whenabouts: MutableList<Whenabout> = emptyList<Whenabout>().toMutableList()
+      //TODO: Remove list and add viewmodel to populate
+        whenabouts.add(Whenabout(UUID.randomUUID(),"Sajal", TimeZone.getDefault()))
+        whenabouts.add(Whenabout(UUID.randomUUID(),"Sagun", TimeZone.getDefault()))
+
+
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = WhenaboutAdapter(whenabouts)
         }
 
         return binding.root
@@ -31,6 +39,8 @@ class WhenaboutListFragment : Fragment() {
 
     private inner class WhenaboutAdapter(var whenabouts: List<Whenabout>) :
         RecyclerView.Adapter<WhenaboutHolder>() {
+
+
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
                 WhenaboutHolder {
@@ -43,9 +53,11 @@ class WhenaboutListFragment : Fragment() {
             return WhenaboutHolder(binding)
         }
 
-        override fun getItemCount(): Int = 0
+        override fun getItemCount(): Int = whenabouts.size ?: 0
 
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
+            val whenabout = whenabouts.get(position)
+            holder.bind(whenabout)
         }
 
     }
@@ -53,6 +65,11 @@ class WhenaboutListFragment : Fragment() {
 
     private inner class WhenaboutHolder(private val binding: ListItemTimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(whenabout: Whenabout){
+            binding.whenabout = whenabout
+            binding.executePendingBindings()
+        }
     }
 
 }
