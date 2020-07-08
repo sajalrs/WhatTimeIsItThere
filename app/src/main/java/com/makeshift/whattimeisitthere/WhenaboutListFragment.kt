@@ -25,8 +25,8 @@ class WhenaboutListFragment : Fragment() {
 
         val whenabouts: MutableList<Whenabout> = emptyList<Whenabout>().toMutableList()
       //TODO: Remove list and add viewmodel to populate
-        whenabouts.add(Whenabout(UUID.randomUUID(),"Sajal", TimeZone.getDefault()))
-        whenabouts.add(Whenabout(UUID.randomUUID(),"Sagun", TimeZone.getDefault()))
+        whenabouts.add(Whenabout(UUID.randomUUID(),"Sajal\nSatyal", TimeZone.getDefault()))
+        whenabouts.add(Whenabout(UUID.randomUUID(),"Sagun\nSatyal", TimeZone.getDefault()))
 
 
         binding.recyclerView.apply {
