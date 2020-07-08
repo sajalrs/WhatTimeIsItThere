@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
+import androidx.lifecycle.Observer
 import java.util.*
 
 class WhenaboutListFragment : Fragment() {
+
+    private lateinit var binding: FragmentWhenaboutListBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,21 +24,41 @@ class WhenaboutListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentWhenaboutListBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
         val whenabouts: MutableList<Whenabout> = emptyList<Whenabout>().toMutableList()
       //TODO: Remove list and add viewmodel to populate
-        whenabouts.add(Whenabout(UUID.randomUUID(),"Sajal\nSatyal", TimeZone.getDefault()))
-        whenabouts.add(Whenabout(UUID.randomUUID(),"Sagun\nSatyal", TimeZone.getDefault()))
 
+        binding.apply {
+            whenaboutListViewModel = WhenaboutListViewModel()
+        }
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = WhenaboutAdapter(whenabouts)
+
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.whenaboutListViewModel?.whenaboutsListLiveData?.observe(
+            viewLifecycleOwner,
+            Observer {whenabouts ->
+                whenabouts?.let{
+                    updateUI(whenabouts)
+                }
+
+            }
+        )
+
+    }
+
+    private fun updateUI(whenabouts: List<Whenabout>){
+        binding.recyclerView.adapter = WhenaboutAdapter(whenabouts)
     }
 
     private inner class WhenaboutAdapter(var whenabouts: List<Whenabout>) :
