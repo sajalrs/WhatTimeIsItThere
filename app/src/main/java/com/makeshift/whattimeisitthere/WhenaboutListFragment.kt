@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.list_item_time.*
+import kotlinx.android.synthetic.main.list_item_time.view.*
+import kotlinx.android.synthetic.main.list_item_time.view.edit_text_name
 import java.util.*
 
 class WhenaboutListFragment : Fragment() {
@@ -87,6 +90,31 @@ class WhenaboutListFragment : Fragment() {
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
             val whenabout = whenabouts.get(position)
             holder.bind(whenabout)
+
+            holder.itemView.isFocusableInTouchMode = true
+            holder.itemView.setOnLongClickListener(object : View.OnLongClickListener{
+                override fun onLongClick(v: View?): Boolean {
+                    holder.itemView.text_name.visibility = View.GONE
+                    holder.itemView.edit_text_name.visibility = View.VISIBLE
+                    holder.itemView.spinner_time_zone.visibility = View.VISIBLE
+
+                    holder.itemView.setOnFocusChangeListener(object : View.OnFocusChangeListener{
+                        override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                            if(!(hasFocus)){
+                                holder.itemView.text_name.visibility = View.VISIBLE
+                                holder.itemView.edit_text_name.visibility = View.GONE
+                                holder.itemView.spinner_time_zone.visibility = View.GONE
+                            }
+                        }
+
+                    })
+
+                    return true
+                }
+
+            })
+
+
         }
 
     }
