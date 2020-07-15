@@ -2,6 +2,7 @@ package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +41,6 @@ class WhenaboutListFragment : Fragment() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = WhenaboutAdapter(emptyList())
-
         }
 
         return binding.root
@@ -55,8 +55,8 @@ class WhenaboutListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.whenaboutListViewModel?.whenaboutsListLiveData?.observe(
             viewLifecycleOwner,
-            Observer {whenabouts ->
-                whenabouts?.let{
+            Observer { whenabouts ->
+                whenabouts?.let {
                     updateUI(whenabouts)
                 }
 
@@ -65,13 +65,12 @@ class WhenaboutListFragment : Fragment() {
 
     }
 
-    private fun updateUI(whenabouts: List<Whenabout>){
+    private fun updateUI(whenabouts: List<Whenabout>) {
         binding.recyclerView.adapter = WhenaboutAdapter(whenabouts)
     }
 
     private inner class WhenaboutAdapter(var whenabouts: List<Whenabout>) :
         RecyclerView.Adapter<WhenaboutHolder>() {
-
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -89,27 +88,38 @@ class WhenaboutListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
             val whenabout = whenabouts.get(position)
+            val textName = holder.itemView.text_name
+            val editTextName = holder.itemView.edit_text_name
+            val spinnerTimeZone = holder.itemView.spinner_time_zone
+
             holder.bind(whenabout)
 
             holder.itemView.isFocusableInTouchMode = true
-            holder.itemView.setOnLongClickListener(object : View.OnLongClickListener{
-                override fun onLongClick(v: View?): Boolean {
-                    holder.itemView.text_name.visibility = View.GONE
-                    holder.itemView.edit_text_name.visibility = View.VISIBLE
-                    holder.itemView.spinner_time_zone.visibility = View.VISIBLE
 
-                    holder.itemView.setOnFocusChangeListener(object : View.OnFocusChangeListener{
+            holder.itemView.setOnLongClickListener(object : View.OnLongClickListener {
+                override fun onLongClick(v: View?): Boolean {
+                    textName.visibility = View.GONE
+                    editTextName.visibility = View.VISIBLE
+                    spinnerTimeZone.visibility = View.VISIBLE
+
+                    val data = TimeZone.getAvailableIDs()
+                    val spinnerAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, data)
+                    spinnerTimeZone.adapter = spinnerAdapter
+                    val spinnerPosition = spinnerAdapter.getPosition(whenabout.timeZone.id)
+                    spinnerTimeZone.setSelection(spinnerPosition)
+
+                    holder.itemView.setOnFocusChangeListener(object : View.OnFocusChangeListener {
                         override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                            if(!(hasFocus)){
-                                holder.itemView.text_name.visibility = View.VISIBLE
-                                holder.itemView.edit_text_name.visibility = View.GONE
-                                holder.itemView.spinner_time_zone.visibility = View.GONE
+                            if (!(hasFocus)) {
+                                textName.visibility = View.VISIBLE
+                                editTextName.visibility = View.GONE
+                                spinnerTimeZone.visibility = View.GONE
                             }
                         }
-
                     })
 
                     return true
+
                 }
 
             })
@@ -123,7 +133,7 @@ class WhenaboutListFragment : Fragment() {
     private inner class WhenaboutHolder(private val binding: ListItemTimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(whenabout: Whenabout){
+        fun bind(whenabout: Whenabout) {
             binding.whenabout = whenabout
             binding.executePendingBindings()
         }
