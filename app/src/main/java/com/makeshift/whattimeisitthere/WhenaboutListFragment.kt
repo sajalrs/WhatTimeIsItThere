@@ -96,33 +96,31 @@ class WhenaboutListFragment : Fragment() {
 
             holder.itemView.isFocusableInTouchMode = true
 
-            holder.itemView.setOnLongClickListener(object : View.OnLongClickListener {
-                override fun onLongClick(v: View?): Boolean {
-                    textName.visibility = View.GONE
-                    editTextName.visibility = View.VISIBLE
-                    spinnerTimeZone.visibility = View.VISIBLE
+            holder.itemView.setOnClickListener {
+                textName.visibility = View.GONE
+                editTextName.visibility = View.VISIBLE
+                spinnerTimeZone.visibility = View.VISIBLE
 
-                    val data = TimeZone.getAvailableIDs()
-                    val spinnerAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, data)
-                    spinnerTimeZone.adapter = spinnerAdapter
-                    val spinnerPosition = spinnerAdapter.getPosition(whenabout.timeZone.id)
-                    spinnerTimeZone.setSelection(spinnerPosition)
+                val data = TimeZone.getAvailableIDs()
+                val spinnerAdapter = ArrayAdapter<String>(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    data)
 
-                    holder.itemView.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-                        override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                            if (!(hasFocus)) {
-                                textName.visibility = View.VISIBLE
-                                editTextName.visibility = View.GONE
-                                spinnerTimeZone.visibility = View.GONE
-                            }
+                spinnerTimeZone.adapter = spinnerAdapter
+                spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
+
+                holder.itemView.onFocusChangeListener =
+                    View.OnFocusChangeListener { v, hasFocus ->
+                        if (!(hasFocus)) {
+                            textName.visibility = View.VISIBLE
+                            editTextName.visibility = View.GONE
+                            spinnerTimeZone.visibility = View.GONE
                         }
-                    })
+                    }
 
-                    return true
-
-                }
-
-            })
+                true
+            }
 
 
         }
