@@ -8,6 +8,7 @@ class WhenaboutListViewModel: ViewModel() {
     private val whenaboutRepository = WhenaboutRepository.get()
     val whenaboutsListLiveData = whenaboutRepository.getWhenabouts()
 
+
 //    init {
 //        val toAdd1 = Whenabout(UUID.randomUUID(),"Sajal\nSatyal", TimeZone.getDefault())
 //        val toAdd2 = Whenabout(UUID.randomUUID(),"Sagun\nSatyal", TimeZone.getDefault())

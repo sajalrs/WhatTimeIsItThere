@@ -1,9 +1,7 @@
 package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +15,10 @@ class WhenaboutListFragment : Fragment() {
 
     private lateinit var binding: FragmentWhenaboutListBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,10 +30,12 @@ class WhenaboutListFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
         val whenabouts: MutableList<Whenabout> = emptyList<Whenabout>().toMutableList()
+
       //TODO: Remove list and add viewmodel to populate
 
         binding.apply {
             whenaboutListViewModel = WhenaboutListViewModel()
+
         }
 
         binding.recyclerView.apply {
@@ -41,6 +45,11 @@ class WhenaboutListFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_whenabout_list, menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
