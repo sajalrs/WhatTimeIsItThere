@@ -29,10 +29,6 @@ class WhenaboutListFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
-        val whenabouts: MutableList<Whenabout> = emptyList<Whenabout>().toMutableList()
-
-      //TODO: Remove list and add viewmodel to populate
-
         binding.apply {
             whenaboutListViewModel = WhenaboutListViewModel()
 
@@ -40,7 +36,7 @@ class WhenaboutListFragment : Fragment() {
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = WhenaboutAdapter(whenabouts)
+            adapter = WhenaboutAdapter(emptyList())
 
         }
 
