@@ -19,4 +19,8 @@ class WhenaboutListViewModel: ViewModel() {
     fun addWhenabout(whenabout: Whenabout){
         whenaboutRepository.addWheabout(whenabout)
     }
+
+    fun saveWhenabout(whenabout: Whenabout){
+        whenaboutRepository.updateWhenabout(whenabout)
+    }
 }

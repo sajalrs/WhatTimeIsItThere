@@ -1,6 +1,8 @@
 package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
@@ -110,12 +112,16 @@ class WhenaboutListFragment : Fragment() {
                 spinnerTimeZone.adapter = spinnerAdapter
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
 
+
+
                 holder.itemView.onFocusChangeListener =
                     View.OnFocusChangeListener { v, hasFocus ->
-                        if (!(hasFocus)) {
+                        if (!hasFocus && !editTextName.hasFocus()) {
                             textName.visibility = View.VISIBLE
                             editTextName.visibility = View.GONE
                             spinnerTimeZone.visibility = View.GONE
+                            whenabout.name = editTextName.text.toString()
+                            binding.whenaboutListViewModel?.saveWhenabout(whenabout)
                         }
                     }
 
