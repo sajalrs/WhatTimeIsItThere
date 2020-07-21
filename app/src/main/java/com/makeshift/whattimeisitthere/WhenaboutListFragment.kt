@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.ArrayAdapter
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +54,14 @@ class WhenaboutListFragment : Fragment() {
         inflater.inflate(R.menu.fragment_whenabout_list, menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.new_contact ->
+                binding.whenaboutListViewModel?.addWhenabout(Whenabout())
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.whenaboutListViewModel?.whenaboutsListLiveData?.observe(
@@ -85,6 +94,7 @@ class WhenaboutListFragment : Fragment() {
             )
             return WhenaboutHolder(binding)
         }
+
 
         override fun getItemCount(): Int = whenabouts.size ?: 0
 
@@ -121,6 +131,7 @@ class WhenaboutListFragment : Fragment() {
                             editTextName.visibility = View.GONE
                             spinnerTimeZone.visibility = View.GONE
                             whenabout.name = editTextName.text.toString()
+                            whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
                             binding.whenaboutListViewModel?.saveWhenabout(whenabout)
                         }
                     }
@@ -132,6 +143,7 @@ class WhenaboutListFragment : Fragment() {
         }
 
     }
+
 
 
     private inner class WhenaboutHolder(private val binding: ListItemTimeBinding) :
