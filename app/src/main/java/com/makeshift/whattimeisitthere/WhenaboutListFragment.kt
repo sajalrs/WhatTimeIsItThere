@@ -124,7 +124,15 @@ class WhenaboutListFragment : Fragment() {
                 spinnerTimeZone.adapter = spinnerAdapter
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
 
-
+                bacKButton.setOnClickListener{
+                    textName.visibility = View.VISIBLE
+                    editTextName.visibility = View.GONE
+                    spinnerTimeZone.visibility = View.GONE
+                    bacKButton.visibility = View.GONE
+                    whenabout.name = editTextName.text.toString()
+                    whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
+                    binding.whenaboutListViewModel?.saveWhenabout(whenabout)
+                }
 
                 holder.itemView.onFocusChangeListener =
                     View.OnFocusChangeListener { v, hasFocus ->
