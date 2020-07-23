@@ -103,6 +103,7 @@ class WhenaboutListFragment : Fragment() {
             val textName = holder.itemView.text_name
             val editTextName = holder.itemView.edit_text_name
             val spinnerTimeZone = holder.itemView.spinner_time_zone
+            val bacKButton = holder.itemView.back_button
 
             holder.bind(whenabout)
 
@@ -112,6 +113,7 @@ class WhenaboutListFragment : Fragment() {
                 textName.visibility = View.GONE
                 editTextName.visibility = View.VISIBLE
                 spinnerTimeZone.visibility = View.VISIBLE
+                bacKButton.visibility = View.VISIBLE
 
                 val data = TimeZone.getAvailableIDs()
                 val spinnerAdapter = ArrayAdapter<String>(
@@ -130,6 +132,7 @@ class WhenaboutListFragment : Fragment() {
                             textName.visibility = View.VISIBLE
                             editTextName.visibility = View.GONE
                             spinnerTimeZone.visibility = View.GONE
+                            bacKButton.visibility = View.GONE
                             whenabout.name = editTextName.text.toString()
                             whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
                             binding.whenaboutListViewModel?.saveWhenabout(whenabout)
