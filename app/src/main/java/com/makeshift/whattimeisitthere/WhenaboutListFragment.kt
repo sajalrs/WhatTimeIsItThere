@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -104,6 +105,7 @@ class WhenaboutListFragment : Fragment() {
             val editTextName = holder.itemView.edit_text_name
             val spinnerTimeZone = holder.itemView.spinner_time_zone
             val bacKButton = holder.itemView.back_button
+            val timeClock = holder.itemView.time_clock
 
             holder.bind(whenabout)
 
@@ -124,7 +126,7 @@ class WhenaboutListFragment : Fragment() {
                 spinnerTimeZone.adapter = spinnerAdapter
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
 
-                bacKButton.setOnClickListener{
+                fun toggleEdit() {
                     textName.visibility = View.VISIBLE
                     editTextName.visibility = View.GONE
                     spinnerTimeZone.visibility = View.GONE
@@ -134,21 +136,36 @@ class WhenaboutListFragment : Fragment() {
                     binding.whenaboutListViewModel?.saveWhenabout(whenabout)
                 }
 
+                spinnerTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        timeClock.timeZone = spinnerTimeZone.selectedItem.toString()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+                }
+
+                bacKButton.setOnClickListener{
+                    toggleEdit()
+                }
+
                 holder.itemView.onFocusChangeListener =
                     View.OnFocusChangeListener { v, hasFocus ->
                         if (!hasFocus && !editTextName.hasFocus()) {
-                            textName.visibility = View.VISIBLE
-                            editTextName.visibility = View.GONE
-                            spinnerTimeZone.visibility = View.GONE
-                            bacKButton.visibility = View.GONE
-                            whenabout.name = editTextName.text.toString()
-                            whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
-                            binding.whenaboutListViewModel?.saveWhenabout(whenabout)
+                            toggleEdit()
                         }
                     }
 
                 true
             }
+
+
 
 
         }
