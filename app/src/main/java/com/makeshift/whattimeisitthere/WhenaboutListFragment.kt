@@ -1,12 +1,9 @@
 package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.list_item_time.*
 import kotlinx.android.synthetic.main.list_item_time.view.*
-import kotlinx.android.synthetic.main.list_item_time.view.edit_text_name
 import java.util.*
 
 class WhenaboutListFragment : Fragment() {
