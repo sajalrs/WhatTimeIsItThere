@@ -42,7 +42,8 @@
             android:id="@+id/spinner_time_zone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
+            />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

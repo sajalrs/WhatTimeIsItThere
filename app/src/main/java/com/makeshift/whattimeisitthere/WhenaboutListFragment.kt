@@ -79,9 +79,15 @@ class WhenaboutListFragment : Fragment() {
         binding.recyclerView.adapter = WhenaboutAdapter(whenabouts)
     }
 
+    private interface Toggleable {
+        fun enableEdit()
+        fun disableEdit()
+    }
+
     private inner class WhenaboutAdapter(var whenabouts: List<Whenabout>) :
         RecyclerView.Adapter<WhenaboutHolder>() {
 
+        private var current: Toggleable? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
                 WhenaboutHolder {
@@ -98,8 +104,7 @@ class WhenaboutListFragment : Fragment() {
         override fun getItemCount(): Int = whenabouts.size ?: 0
 
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
-            val whenabout = whenabouts.get(position)
-            val textName = holder.itemView.text_name
+            val whenabout = whenabouts[position]
             val editTextName = holder.itemView.edit_text_name
             val spinnerTimeZone = holder.itemView.spinner_time_zone
             val bacKButton = holder.itemView.back_button
@@ -107,10 +112,7 @@ class WhenaboutListFragment : Fragment() {
 
 
             fun disableEdit() {
-                textName.visibility = View.VISIBLE
-                editTextName.visibility = View.GONE
-                spinnerTimeZone.visibility = View.GONE
-                bacKButton.visibility = View.GONE
+                holder.disableEdit()
                 whenabout.name = editTextName.text.toString()
                 whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
                 binding.whenaboutListViewModel?.saveWhenabout(whenabout)
@@ -118,16 +120,13 @@ class WhenaboutListFragment : Fragment() {
             }
 
             fun enableEdit(){
-                textName.visibility = View.GONE
-                editTextName.visibility = View.VISIBLE
-                spinnerTimeZone.visibility = View.VISIBLE
-                bacKButton.visibility = View.VISIBLE
 
-                val data = TimeZone.getAvailableIDs()
+                holder.enableEdit()
+
                 val spinnerAdapter = ArrayAdapter<String>(
                     requireContext(),
                     android.R.layout.simple_spinner_item,
-                    data)
+                    TimeZone.getAvailableIDs())
 
                 spinnerTimeZone.adapter = spinnerAdapter
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
@@ -136,39 +135,49 @@ class WhenaboutListFragment : Fragment() {
 
 
             holder.bind(whenabout)
-
-            holder.itemView.isFocusableInTouchMode = true
+            
 
             holder.itemView.setOnClickListener {
-                enableEdit()
-                spinnerTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        timeClock.timeZone = spinnerTimeZone.selectedItem.toString()
-                    }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
-                }
-
-                bacKButton.setOnClickListener{
-                    holder.itemView.clearFocus()
-                }
-
-                holder.itemView.onFocusChangeListener =
-                    View.OnFocusChangeListener { v, hasFocus ->
-                        if (!hasFocus && !editTextName.hasFocus()) {
-                            disableEdit()
+                if(current == null){
+                    current = holder
+                    enableEdit()
+                    spinnerTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            timeClock.timeZone = spinnerTimeZone.selectedItem.toString()
                         }
 
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                        }
                     }
 
+                    bacKButton.setOnClickListener{
+                        disableEdit()
+                    }
+
+//                    holder.itemView.onFocusChangeListener =
+//                        View.OnFocusChangeListener { v, hasFocus ->
+//                            if (!hasFocus && !editTextName.hasFocus()) {
+//                                disableEdit()
+//                            }
+//
+//                        }
+
+
+                } else if(current != holder){
+                    current!!.disableEdit()
+                    current = null
+                }
+
+
                 true
+
             }
 
 
@@ -180,14 +189,25 @@ class WhenaboutListFragment : Fragment() {
 
 
 
-    private inner class WhenaboutHolder(private val binding: ListItemTimeBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    private inner class WhenaboutHolder(private val listItemTimeBinding: ListItemTimeBinding) :
+        RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable {
 
         fun bind(whenabout: Whenabout) {
-            binding.whenabout = whenabout
-            binding.isEditable = false
-            binding.executePendingBindings()
+            listItemTimeBinding.whenabout = whenabout
+            listItemTimeBinding.isEditable = false
+            listItemTimeBinding.executePendingBindings()
         }
+
+        override fun enableEdit(){
+            listItemTimeBinding.isEditable = true
+            listItemTimeBinding.executePendingBindings()
+        }
+
+        override fun disableEdit(){
+            listItemTimeBinding.isEditable = false
+            listItemTimeBinding.executePendingBindings()
+        }
+
     }
 
 }
