@@ -111,40 +111,37 @@ class WhenaboutListFragment : Fragment() {
             val whenabout = whenabouts[position]
             val bacKButton = holder.itemView.back_button
 
-            holder.bind(whenabout)
-
-            if(binding.whenaboutListViewModel?.lastEdited == position){
-                current = holder
-                holder.enableEdit()
-            }
-
-
-            holder.itemView.setOnClickListener {
-
-                if(current == null){
-                    current = holder
-                    holder.enableEdit()
-                    binding.whenaboutListViewModel?.lastEdited = position
-
-
-
-                } else if(current != holder){
-                    current!!.disableEdit()
-                    binding.whenaboutListViewModel?.lastEdited = -1
-                    current = null
-                }
-
-                true
-
-            }
-
-            bacKButton.setOnClickListener{
-                holder.disableEdit()
+            fun disableEdit(){
+                current!!.disableEdit()
                 binding.whenaboutListViewModel?.lastEdited = -1
                 current = null
             }
 
+            fun enableEdit(){
+                current = holder
+                holder.enableEdit()
+                binding.whenaboutListViewModel?.lastEdited = position
+            }
 
+            holder.bind(whenabout)
+
+            if(binding.whenaboutListViewModel?.lastEdited == position){
+                enableEdit()
+            }
+
+            holder.itemView.setOnClickListener {
+                if(current == null){
+                    enableEdit()
+                } else if(current != holder){
+                    disableEdit()
+                }
+                true
+            }
+
+            bacKButton.setOnClickListener{
+                disableEdit()
+            }
+            
         }
 
     }
