@@ -37,7 +37,8 @@ class WhenaboutListFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
         binding.apply {
-            whenaboutListViewModel = ViewModelProvider(this@WhenaboutListFragment).get(WhenaboutListViewModel::class.java)
+            whenaboutListViewModel = ViewModelProvider(
+                this@WhenaboutListFragment).get(WhenaboutListViewModel::class.java)
 
         }
 
@@ -141,7 +142,7 @@ class WhenaboutListFragment : Fragment() {
             bacKButton.setOnClickListener{
                 disableEdit()
             }
-            
+
         }
 
     }
