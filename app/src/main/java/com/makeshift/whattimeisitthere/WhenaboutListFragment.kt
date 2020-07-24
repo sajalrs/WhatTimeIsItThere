@@ -71,7 +71,6 @@ class WhenaboutListFragment : Fragment() {
                 whenabouts?.let {
                     updateUI(whenabouts)
                 }
-
             }
         )
 
