@@ -1,6 +1,7 @@
 package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.list_item_time.view.*
 import java.util.*
 
+private const val TAG = "WHenaboutListFragment"
 class WhenaboutListFragment : Fragment() {
 
     private lateinit var binding: FragmentWhenaboutListBinding
@@ -103,6 +105,7 @@ class WhenaboutListFragment : Fragment() {
             val bacKButton = holder.itemView.back_button
             val timeClock = holder.itemView.time_clock
 
+
             fun disableEdit() {
                 textName.visibility = View.VISIBLE
                 editTextName.visibility = View.GONE
@@ -111,6 +114,7 @@ class WhenaboutListFragment : Fragment() {
                 whenabout.name = editTextName.text.toString()
                 whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
                 binding.whenaboutListViewModel?.saveWhenabout(whenabout)
+
             }
 
             fun enableEdit(){
@@ -161,6 +165,7 @@ class WhenaboutListFragment : Fragment() {
                         if (!hasFocus && !editTextName.hasFocus()) {
                             disableEdit()
                         }
+
                     }
 
                 true
@@ -180,6 +185,7 @@ class WhenaboutListFragment : Fragment() {
 
         fun bind(whenabout: Whenabout) {
             binding.whenabout = whenabout
+            binding.isEditable = false
             binding.executePendingBindings()
         }
     }
