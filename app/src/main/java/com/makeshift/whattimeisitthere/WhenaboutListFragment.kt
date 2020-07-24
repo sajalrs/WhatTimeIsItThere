@@ -121,7 +121,7 @@ class WhenaboutListFragment : Fragment() {
                 spinnerTimeZone.adapter = spinnerAdapter
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
 
-                fun toggleEdit() {
+                fun disableEdit() {
                     textName.visibility = View.VISIBLE
                     editTextName.visibility = View.GONE
                     spinnerTimeZone.visibility = View.GONE
@@ -147,13 +147,13 @@ class WhenaboutListFragment : Fragment() {
                 }
 
                 bacKButton.setOnClickListener{
-                    toggleEdit()
+                    disableEdit()
                 }
 
                 holder.itemView.onFocusChangeListener =
                     View.OnFocusChangeListener { v, hasFocus ->
                         if (!hasFocus && !editTextName.hasFocus()) {
-                            toggleEdit()
+                            disableEdit()
                         }
                     }
 
