@@ -36,7 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:timeZone="@{whenabout.timeZone.ID}"
-            android:visibility="@{isEditable ? View.GONE : View.VISIBLE }"
             android:textSize="14sp"/>
         <Spinner
             android:id="@+id/spinner_time_zone"
