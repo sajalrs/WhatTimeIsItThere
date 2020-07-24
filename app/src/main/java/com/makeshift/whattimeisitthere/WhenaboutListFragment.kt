@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.list_item_time.view.*
 import java.util.*
 
@@ -36,7 +37,7 @@ class WhenaboutListFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
         binding.apply {
-            whenaboutListViewModel = WhenaboutListViewModel()
+            whenaboutListViewModel = ViewModelProvider(this@WhenaboutListFragment).get(WhenaboutListViewModel::class.java)
 
         }
 
@@ -79,6 +80,11 @@ class WhenaboutListFragment : Fragment() {
         binding.recyclerView.adapter = WhenaboutAdapter(whenabouts)
     }
 
+    interface Toggleable {
+        fun enableEdit()
+        fun disableEdit()
+    }
+
 
     private inner class WhenaboutAdapter(var whenabouts: List<Whenabout>) :
         RecyclerView.Adapter<WhenaboutHolder>() {
@@ -87,13 +93,15 @@ class WhenaboutListFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
                 WhenaboutHolder {
-            val binding = DataBindingUtil.inflate<ListItemTimeBinding>(
+            val listItemTimeBinding = DataBindingUtil.inflate<ListItemTimeBinding>(
                 layoutInflater,
                 R.layout.list_item_time,
                 parent,
                 false
             )
-            return WhenaboutHolder(binding)
+
+
+            return WhenaboutHolder(listItemTimeBinding)
         }
 
 
@@ -105,20 +113,24 @@ class WhenaboutListFragment : Fragment() {
 
             holder.bind(whenabout)
 
+            if(binding.whenaboutListViewModel?.lastEdited == position){
+                current = holder
+                holder.enableEdit()
+            }
+
 
             holder.itemView.setOnClickListener {
 
                 if(current == null){
                     current = holder
                     holder.enableEdit()
+                    binding.whenaboutListViewModel?.lastEdited = position
 
-                    bacKButton.setOnClickListener{
-                        holder.disableEdit()
-                    }
 
 
                 } else if(current != holder){
                     current!!.disableEdit()
+                    binding.whenaboutListViewModel?.lastEdited = -1
                     current = null
                 }
 
@@ -126,14 +138,17 @@ class WhenaboutListFragment : Fragment() {
 
             }
 
+            bacKButton.setOnClickListener{
+                holder.disableEdit()
+                binding.whenaboutListViewModel?.lastEdited = -1
+                current = null
+            }
+
+
         }
 
     }
 
-    private interface Toggleable {
-        fun enableEdit()
-        fun disableEdit()
-    }
 
     private inner class WhenaboutHolder(private val listItemTimeBinding: ListItemTimeBinding) :
         RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable {
