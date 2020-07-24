@@ -128,12 +128,13 @@ class WhenaboutListFragment : Fragment() {
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
             }
 
+
+
             holder.bind(whenabout)
 
             holder.itemView.isFocusableInTouchMode = true
 
             holder.itemView.setOnClickListener {
-
                 enableEdit()
                 spinnerTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                     override fun onItemSelected(

@@ -7,7 +7,7 @@ class WhenaboutListViewModel: ViewModel() {
 
     private val whenaboutRepository = WhenaboutRepository.get()
     val whenaboutsListLiveData = whenaboutRepository.getWhenabouts()
-
+    var curEditable = UUID(0,0)
 
 //    init {
 //        val toAdd1 = Whenabout(UUID.randomUUID(),"Sajal\nSatyal", TimeZone.getDefault())
