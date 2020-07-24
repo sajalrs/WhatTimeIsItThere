@@ -102,11 +102,17 @@ class WhenaboutListFragment : Fragment() {
             val bacKButton = holder.itemView.back_button
             val timeClock = holder.itemView.time_clock
 
-            holder.bind(whenabout)
+            fun disableEdit() {
+                textName.visibility = View.VISIBLE
+                editTextName.visibility = View.GONE
+                spinnerTimeZone.visibility = View.GONE
+                bacKButton.visibility = View.GONE
+                whenabout.name = editTextName.text.toString()
+                whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
+                binding.whenaboutListViewModel?.saveWhenabout(whenabout)
+            }
 
-            holder.itemView.isFocusableInTouchMode = true
-
-            holder.itemView.setOnClickListener {
+            fun enableEdit(){
                 textName.visibility = View.GONE
                 editTextName.visibility = View.VISIBLE
                 spinnerTimeZone.visibility = View.VISIBLE
@@ -120,17 +126,15 @@ class WhenaboutListFragment : Fragment() {
 
                 spinnerTimeZone.adapter = spinnerAdapter
                 spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
+            }
 
-                fun disableEdit() {
-                    textName.visibility = View.VISIBLE
-                    editTextName.visibility = View.GONE
-                    spinnerTimeZone.visibility = View.GONE
-                    bacKButton.visibility = View.GONE
-                    whenabout.name = editTextName.text.toString()
-                    whenabout.timeZone = TimeZone.getTimeZone(spinnerTimeZone.selectedItem.toString())
-                    binding.whenaboutListViewModel?.saveWhenabout(whenabout)
-                }
+            holder.bind(whenabout)
 
+            holder.itemView.isFocusableInTouchMode = true
+
+            holder.itemView.setOnClickListener {
+
+                enableEdit()
                 spinnerTimeZone.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                     override fun onItemSelected(
                         parent: AdapterView<*>?,
