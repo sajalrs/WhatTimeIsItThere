@@ -21,6 +21,7 @@ class WhenaboutListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
     }
 
     override fun onCreateView(
@@ -41,7 +42,7 @@ class WhenaboutListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = WhenaboutAdapter(emptyList())
         }
-
+        binding.executePendingBindings()
         return binding.root
     }
 
@@ -152,7 +153,7 @@ class WhenaboutListFragment : Fragment() {
                 }
 
                 bacKButton.setOnClickListener{
-                    disableEdit()
+                    holder.itemView.clearFocus()
                 }
 
                 holder.itemView.onFocusChangeListener =
