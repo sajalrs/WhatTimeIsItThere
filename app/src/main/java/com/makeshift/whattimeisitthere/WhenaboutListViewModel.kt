@@ -1,7 +1,6 @@
 package com.makeshift.whattimeisitthere
 
 import androidx.lifecycle.ViewModel
-import java.util.*
 
 class WhenaboutListViewModel: ViewModel() {
 

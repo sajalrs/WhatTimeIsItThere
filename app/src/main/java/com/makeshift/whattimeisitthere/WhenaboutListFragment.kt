@@ -1,7 +1,6 @@
 package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,9 +12,7 @@ import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.list_item_time.*
 import kotlinx.android.synthetic.main.list_item_time.view.*
-import kotlinx.android.synthetic.main.list_item_time.view.time_clock
 import java.text.SimpleDateFormat
 import java.util.*
 
