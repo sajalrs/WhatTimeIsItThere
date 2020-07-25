@@ -13,7 +13,10 @@ import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.list_item_time.*
 import kotlinx.android.synthetic.main.list_item_time.view.*
+import kotlinx.android.synthetic.main.list_item_time.view.time_clock
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "WHenaboutListFragment"
@@ -151,10 +154,25 @@ class WhenaboutListFragment : Fragment() {
         RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable {
         private lateinit var whenabout: Whenabout
 
+        fun getDateThere(timeZone: TimeZone): String{
+
+            val gmtTime = Calendar.getInstance(TimeZone.getTimeZone("GMT")).timeInMillis
+            val timeElsewhere = gmtTime + TimeZone.getTimeZone(timeZone.id).rawOffset
+
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone.id))
+            calendar.timeInMillis = timeElsewhere
+
+            val dateFormat = SimpleDateFormat(" EEE, MMM dd, ''yy ")
+            return dateFormat.format(calendar.time)
+        }
+
         fun bind(whenabout: Whenabout) {
             this.whenabout = whenabout
             listItemTimeBinding.whenabout = this.whenabout
             listItemTimeBinding.isEditable = false
+
+            listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
+
             listItemTimeBinding.executePendingBindings()
         }
 
@@ -172,7 +190,11 @@ class WhenaboutListFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    listItemTimeBinding.timeClock.timeZone = listItemTimeBinding.spinnerTimeZone.selectedItem.toString()
+                    val selectedTimeZoneID = listItemTimeBinding.spinnerTimeZone.selectedItem.toString()
+                    listItemTimeBinding.timeClock.timeZone =
+                        selectedTimeZoneID
+                    listItemTimeBinding.textDate.text =
+                        getDateThere(TimeZone.getTimeZone(selectedTimeZoneID))
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
