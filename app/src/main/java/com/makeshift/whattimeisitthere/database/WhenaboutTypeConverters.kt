@@ -24,4 +24,14 @@ class WhenaboutTypeConverters {
     fun fromTimeZone(timeZone: TimeZone): String?{
         return timeZone?.id
     }
+
+    @TypeConverter
+    fun fromDate(date: Date): Long{
+        return date.time
+    }
+
+    @TypeConverter
+    fun toDate(dateTimeMillis: Long): Date{
+        return Date(dateTimeMillis)
+    }
 }
