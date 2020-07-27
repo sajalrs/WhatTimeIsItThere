@@ -3,6 +3,8 @@ package com.makeshift.whattimeisitthere
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.makeshift.whattimeisitthere.database.WhenaboutDatabase
 import java.lang.IllegalStateException
 import java.util.*
@@ -11,13 +13,20 @@ import java.util.concurrent.Executors
 private const val DATABASE_NAME = "wheabouts-database"
 class WhenaboutRepository private constructor(context: Context){
 
+    val MIGRATION_1_2 = object : Migration(1,2){
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE Whenabout ADD COLUMN dob LONG")
+        }
+
+    }
+
     private val database: WhenaboutDatabase = Room.databaseBuilder(
         context.applicationContext,
         WhenaboutDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).addMigrations(MIGRATION_1_2).build()
 
-    
+
     private val whenaboutDao = database.whenaboutDao()
     private val executor = Executors.newSingleThreadExecutor()
 
