@@ -17,6 +17,7 @@ class WhenaboutRepository private constructor(context: Context){
         DATABASE_NAME
     ).build()
 
+    
     private val whenaboutDao = database.whenaboutDao()
     private val executor = Executors.newSingleThreadExecutor()
 

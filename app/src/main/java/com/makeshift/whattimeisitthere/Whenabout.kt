@@ -6,5 +6,6 @@ import java.util.*
 @Entity
 data class Whenabout(@PrimaryKey val id: UUID = UUID.randomUUID(),
                      var name: String = "",
-                     var timeZone: TimeZone = TimeZone.getDefault()) {
+                     var timeZone: TimeZone = TimeZone.getDefault(),
+                     var dob: Date = Date(0)) {
 }
