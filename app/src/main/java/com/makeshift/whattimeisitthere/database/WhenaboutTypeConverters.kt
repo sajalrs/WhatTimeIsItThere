@@ -27,11 +27,11 @@ class WhenaboutTypeConverters {
 
     @TypeConverter
     fun fromDate(date: Date): Long{
-        return date.time
+        return date?.time
     }
 
     @TypeConverter
-    fun toDate(dateTimeMillis: Long): Date{
-        return Date(dateTimeMillis)
+    fun toDate(dateInMillis: Long?): Date?{
+        return Date(dateInMillis!!)
     }
 }

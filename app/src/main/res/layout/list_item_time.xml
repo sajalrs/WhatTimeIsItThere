@@ -32,17 +32,24 @@
             android:text="@{whenabout.name}"
             android:textSize="14sp"
             android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"/>
-        <TextView
-            android:id="@+id/text_date"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"/>
-        <TextClock
-            android:id="@+id/time_clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:timeZone="@{whenabout.timeZone.ID}"
-            android:textSize="14sp"/>
+            android:orientation="vertical">
+            <TextClock
+                android:id="@+id/time_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:timeZone="@{whenabout.timeZone.ID}"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
         <Spinner
             android:id="@+id/spinner_time_zone"
             android:layout_width="wrap_content"

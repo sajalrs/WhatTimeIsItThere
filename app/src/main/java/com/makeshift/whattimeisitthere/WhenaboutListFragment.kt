@@ -1,6 +1,7 @@
 package com.makeshift.whattimeisitthere
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -169,7 +170,7 @@ class WhenaboutListFragment : Fragment() {
             listItemTimeBinding.isEditable = false
 
             listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
-
+//            Log.i(TAG, "DOB: ${whenabout.dob}")
             listItemTimeBinding.executePendingBindings()
         }
 
