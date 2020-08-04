@@ -32,6 +32,7 @@ android {
 dependencies {
     def room_version = "2.2.5"
     def lifecycle_version = "2.2.0"
+    def work_runtime_version = "1.0.1"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -41,6 +42,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "android.arch.work:work-runtime:$work_runtime_version"
     kapt "androidx.room:room-compiler:$room_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
