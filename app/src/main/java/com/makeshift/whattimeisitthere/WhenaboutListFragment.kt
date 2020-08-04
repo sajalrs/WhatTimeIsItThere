@@ -13,6 +13,8 @@ import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import kotlinx.android.synthetic.main.list_item_time.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +27,12 @@ class WhenaboutListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        val workRequest = OneTimeWorkRequest
+            .Builder(BirthdayWorker::class.java)
+            .build()
+        WorkManager.getInstance()
+            .enqueue(workRequest)
 
     }
 
