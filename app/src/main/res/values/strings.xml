@@ -2,4 +2,5 @@
     <string name="app_name">WhatTimeIsItThere</string>
     <string name="new_contact">New Contact</string>
     <string name="notification_channel_name">WhatTimeIsItThere</string>
+    <string name="daily_birthday">Today\'s Birthdays</string>
 </resources>

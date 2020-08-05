@@ -31,12 +31,6 @@ class WhenaboutListFragment : Fragment() {
         setHasOptionsMenu(true)
 
 
-        val workRequest = OneTimeWorkRequest
-            .Builder(BirthdayWorker::class.java)
-            .build()
-        WorkManager.getInstance()
-            .enqueue(workRequest)
-
     }
 
     override fun onCreateView(
