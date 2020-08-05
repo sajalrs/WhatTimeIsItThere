@@ -34,7 +34,7 @@ class WhenaboutRepository private constructor(context: Context){
 
     fun getWhenabouts(id: UUID): LiveData<Whenabout?> = whenaboutDao.getWhenabout(id)
 
-    fun getBirthdayWhenabouts(dob: Date): LiveData<List<Whenabout>> = whenaboutDao.getBirthdayWhenabouts(dob)
+    fun getBirthdayWhenabouts(dob: Date): List<Whenabout> = whenaboutDao.getBirthdayWhenabouts(dob)
 
     fun updateWhenabout(whenabout: Whenabout){
         executor.execute{
