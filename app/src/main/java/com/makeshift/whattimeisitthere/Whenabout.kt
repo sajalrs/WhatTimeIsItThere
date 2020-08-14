@@ -7,5 +7,11 @@ import java.util.*
 data class Whenabout(@PrimaryKey val id: UUID = UUID.randomUUID(),
                      var name: String = "",
                      var timeZone: TimeZone = TimeZone.getDefault(),
-                     var dob: Date = Date(0)) {
+                     var dob: Date) {
+    init{
+        var calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR + 1900, Calendar.MONTH, Calendar.DATE)
+        dob = Date(calendar.timeInMillis)
+    }
+
 }
