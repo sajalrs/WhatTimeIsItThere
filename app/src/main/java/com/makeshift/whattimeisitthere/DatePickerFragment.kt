@@ -3,6 +3,7 @@ package com.makeshift.whattimeisitthere
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
@@ -24,7 +25,8 @@ class DatePickerFragment: DialogFragment() {
     }
     
     companion object{
-        fun newInstance(date: Date): {
+        fun newInstance(date: Date): DatePickerFragment {
+            Log.i(ARG_DATE, date.toString())
             val args = Bundle().apply {
                 putSerializable(ARG_DATE, date)
             }

@@ -151,7 +151,7 @@ class WhenaboutListFragment : Fragment() {
             }
 
             birthdayButton.setOnClickListener{
-                DatePickerFragment().apply{
+                DatePickerFragment.newInstance(whenabout.dob).apply{
                     show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
                 }
             }
