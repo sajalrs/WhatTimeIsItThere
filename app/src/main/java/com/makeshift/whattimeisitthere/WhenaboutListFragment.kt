@@ -118,7 +118,6 @@ class WhenaboutListFragment : Fragment() {
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
             val whenabout = whenabouts[position]
             val backButton = holder.itemView.back_button
-            val birthdayButton = holder.itemView.birthday_button
 
             fun disableEdit(){
                 current!!.disableEdit()
@@ -151,19 +150,14 @@ class WhenaboutListFragment : Fragment() {
                 disableEdit()
             }
 
-            birthdayButton.setOnClickListener{
-                DatePickerFragment.newInstance(whenabout.dob).apply{
-                    setTargetFragment(this@WhenaboutListFragment, REQUEST_DATE);
-                    show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
-                }
-            }
+
         }
 
     }
 
 
     private inner class WhenaboutHolder(private val listItemTimeBinding: ListItemTimeBinding) :
-        RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable {
+        RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable,  DatePickerFragment.Callbacks {
         private lateinit var whenabout: Whenabout
 
         fun getDateThere(timeZone: TimeZone): String{
@@ -216,6 +210,13 @@ class WhenaboutListFragment : Fragment() {
 
             listItemTimeBinding.spinnerTimeZone.adapter = spinnerAdapter
             listItemTimeBinding.spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
+            listItemTimeBinding.birthdayButton.setOnClickListener{
+                DatePickerFragment.newInstance(whenabout.dob).apply{
+                    setTargetFragment(this@WhenaboutListFragment, REQUEST_DATE);
+                    show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
+                }
+            }
+
             listItemTimeBinding.executePendingBindings()
         }
 
@@ -224,6 +225,12 @@ class WhenaboutListFragment : Fragment() {
             whenabout.name = listItemTimeBinding.editTextName.text.toString()
             whenabout.timeZone = TimeZone.getTimeZone(listItemTimeBinding.spinnerTimeZone.selectedItem.toString())
             binding.whenaboutListViewModel?.saveWhenabout(whenabout)
+            listItemTimeBinding.executePendingBindings()
+        }
+
+        override fun onDateSelected(date: Date) {
+            whenabout.dob = date
+            Log.i(TAG,whenabout.dob.toString())
             listItemTimeBinding.executePendingBindings()
         }
 
