@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,18 +14,14 @@ import com.makeshift.whattimeisitthere.databinding.FragmentWhenaboutListBinding
 import com.makeshift.whattimeisitthere.databinding.ListItemTimeBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import kotlinx.android.synthetic.main.list_item_time.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val TAG = "WHenaboutListFragment"
+private const val TAG = "WhenaboutListFragment"
 private const val DIALOG_DATE = "DialogDate"
 private const val REQUEST_DATE = 0;
-class WhenaboutListFragment : Fragment() {
+class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
     private lateinit var binding: FragmentWhenaboutListBinding
 
@@ -118,6 +115,7 @@ class WhenaboutListFragment : Fragment() {
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
             val whenabout = whenabouts[position]
             val backButton = holder.itemView.back_button
+            val birthdayButton = holder.itemView.birthday_button
 
             fun disableEdit(){
                 current!!.disableEdit()
@@ -150,6 +148,12 @@ class WhenaboutListFragment : Fragment() {
                 disableEdit()
             }
 
+            birthdayButton.setOnClickListener{
+                DatePickerFragment.newInstance(whenabout).apply{
+                    setTargetFragment(this@WhenaboutListFragment, REQUEST_DATE);
+                    show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
+                }
+            }
 
         }
 
@@ -157,7 +161,7 @@ class WhenaboutListFragment : Fragment() {
 
 
     private inner class WhenaboutHolder(private val listItemTimeBinding: ListItemTimeBinding) :
-        RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable,  DatePickerFragment.Callbacks {
+        RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable {
         private lateinit var whenabout: Whenabout
 
         fun getDateThere(timeZone: TimeZone): String{
@@ -176,9 +180,7 @@ class WhenaboutListFragment : Fragment() {
             this.whenabout = whenabout
             listItemTimeBinding.whenabout = this.whenabout
             listItemTimeBinding.isEditable = false
-
             listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
-//            Log.i(TAG, "DOB: ${whenabout.dob}")
             listItemTimeBinding.executePendingBindings()
         }
 
@@ -210,13 +212,6 @@ class WhenaboutListFragment : Fragment() {
 
             listItemTimeBinding.spinnerTimeZone.adapter = spinnerAdapter
             listItemTimeBinding.spinnerTimeZone.setSelection(spinnerAdapter.getPosition(whenabout.timeZone.id))
-            listItemTimeBinding.birthdayButton.setOnClickListener{
-                DatePickerFragment.newInstance(whenabout.dob).apply{
-                    setTargetFragment(this@WhenaboutListFragment, REQUEST_DATE);
-                    show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
-                }
-            }
-
             listItemTimeBinding.executePendingBindings()
         }
 
@@ -228,12 +223,10 @@ class WhenaboutListFragment : Fragment() {
             listItemTimeBinding.executePendingBindings()
         }
 
-        override fun onDateSelected(date: Date) {
-            whenabout.dob = date
-            Log.i(TAG,whenabout.dob.toString())
-            listItemTimeBinding.executePendingBindings()
-        }
+    }
 
+    override fun onDateSelected(whenabout: Whenabout) {
+       binding.whenaboutListViewModel?.saveWhenabout(whenabout)
     }
 
 }
