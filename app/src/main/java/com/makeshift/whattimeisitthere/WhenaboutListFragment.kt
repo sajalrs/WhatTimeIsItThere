@@ -23,6 +23,7 @@ import java.util.*
 
 private const val TAG = "WHenaboutListFragment"
 private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0;
 class WhenaboutListFragment : Fragment() {
 
     private lateinit var binding: FragmentWhenaboutListBinding
@@ -152,6 +153,7 @@ class WhenaboutListFragment : Fragment() {
 
             birthdayButton.setOnClickListener{
                 DatePickerFragment.newInstance(whenabout.dob).apply{
+                    setTargetFragment(this@WhenaboutListFragment, REQUEST_DATE);
                     show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
                 }
             }
