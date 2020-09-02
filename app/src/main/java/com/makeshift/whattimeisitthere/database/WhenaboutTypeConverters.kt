@@ -1,6 +1,7 @@
 package com.makeshift.whattimeisitthere.database
 
 import androidx.room.TypeConverter
+import java.text.SimpleDateFormat
 import java.util.*
 
 class WhenaboutTypeConverters {
@@ -26,12 +27,14 @@ class WhenaboutTypeConverters {
     }
 
     @TypeConverter
-    fun fromDate(date: Date): Long{
-        return date?.time
+    fun fromDate(date: Date): String{
+        val datePattern = SimpleDateFormat("MM/dd/YYYY")
+        return datePattern.format(date)
     }
 
     @TypeConverter
-    fun toDate(dateInMillis: Long?): Date?{
-        return Date(dateInMillis!!)
+    fun toDate(dateString: String?): Date?{
+        val datePattern = SimpleDateFormat("MM/dd/YYYY")
+        return datePattern.parse(dateString)
     }
 }

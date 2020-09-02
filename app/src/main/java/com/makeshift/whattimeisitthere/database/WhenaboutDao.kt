@@ -17,7 +17,7 @@ interface WhenaboutDao {
     @Query("SELECT * FROM whenabout WHERE id=(:id)")
     fun getWhenabout(id: UUID): LiveData<Whenabout?>
 
-    @Query("SELECT * FROM whenabout WHERE dob=(:dob)")
+    @Query("SELECT * FROM whenabout WHERE substr(dob,1,5) = substr((:dob),1,5)")
     fun getBirthdayWhenabouts(dob: Date): List<Whenabout>
 
     @Update

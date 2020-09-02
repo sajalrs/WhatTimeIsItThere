@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "WHenaboutListFragment"
+private const val DIALOG_DATE = "DialogDate"
 class WhenaboutListFragment : Fragment() {
 
     private lateinit var binding: FragmentWhenaboutListBinding
@@ -115,7 +116,8 @@ class WhenaboutListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: WhenaboutHolder, position: Int) {
             val whenabout = whenabouts[position]
-            val bacKButton = holder.itemView.back_button
+            val backButton = holder.itemView.back_button
+            val birthdayButton = holder.itemView.birthday_button
 
             fun disableEdit(){
                 current!!.disableEdit()
@@ -144,10 +146,13 @@ class WhenaboutListFragment : Fragment() {
                 true
             }
 
-            bacKButton.setOnClickListener{
+            backButton.setOnClickListener{
                 disableEdit()
             }
 
+            birthdayButton.setOnClickListener{
+        
+            }
         }
 
     }
