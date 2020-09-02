@@ -3,8 +3,6 @@ package com.makeshift.whattimeisitthere
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.makeshift.whattimeisitthere.database.WhenaboutDatabase
 import java.lang.IllegalStateException
 import java.util.*

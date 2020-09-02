@@ -1,6 +1,5 @@
 package com.makeshift.whattimeisitthere.database
 
-import android.util.Log
 import androidx.room.TypeConverter
 import java.text.SimpleDateFormat
 import java.util.*

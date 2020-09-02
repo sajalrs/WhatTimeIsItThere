@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters
 import java.util.*
 
 private const val TAG = "BirthdayWorker"
-class BirthdayWorker(val context:Context, workerParams: WorkerParameters):
+class BirthdayWorker(private val context:Context, workerParams: WorkerParameters):
     Worker(context, workerParams) {
     override fun doWork(): Result {
         Log.i(TAG, "Work Request Triggered")
