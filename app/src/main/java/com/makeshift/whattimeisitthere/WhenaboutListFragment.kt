@@ -114,7 +114,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             val whenabout = whenabouts[position]
             val backButton = holder.itemView.back_button
             val birthdayButton = holder.itemView.birthday_button
-
+            val deleteButton = holder.itemView.delete_button
             fun disableEdit(){
                 current!!.disableEdit()
                 binding.whenaboutListViewModel?.lastEdited = -1
@@ -151,6 +151,10 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
                     setTargetFragment(this@WhenaboutListFragment, REQUEST_DATE);
                     show(this@WhenaboutListFragment.requireFragmentManager(), DIALOG_DATE)
                 }
+            }
+
+            deleteButton.setOnClickListener{
+                binding.whenaboutListViewModel?.deleteWhenabout(whenabout)
             }
 
         }
