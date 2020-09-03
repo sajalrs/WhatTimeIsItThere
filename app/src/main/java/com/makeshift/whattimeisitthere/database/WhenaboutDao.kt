@@ -1,10 +1,7 @@
 package com.makeshift.whattimeisitthere.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.makeshift.whattimeisitthere.Whenabout
 import java.util.*
 
@@ -26,4 +23,6 @@ interface WhenaboutDao {
     @Insert
     fun addWhenabout(whenabout: Whenabout)
 
+    @Delete
+    fun removeWhenabout(whenabout: Whenabout)
 }
