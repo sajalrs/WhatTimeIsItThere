@@ -17,5 +17,7 @@ class WhenaboutListViewModel: ViewModel() {
         whenaboutRepository.updateWhenabout(whenabout)
     }
 
-
+    fun deleteWhenabout(whenabout: Whenabout){
+        whenaboutRepository.deleteWhenabout(whenabout)
+    }
 }
