@@ -63,6 +63,12 @@
             android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
             android:src="@drawable/ic_cake_24dp"/>
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_button"
+            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
+            android:src="@drawable/ic_delete_forever_24dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
