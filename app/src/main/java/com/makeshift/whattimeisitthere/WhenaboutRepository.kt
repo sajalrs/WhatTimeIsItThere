@@ -39,6 +39,12 @@ class WhenaboutRepository private constructor(context: Context){
         }
     }
 
+    fun deleteWhenabout(whenabout: Whenabout){
+        executor.execute{
+            whenaboutDao.removeWhenabout(whenabout)
+        }
+    }
+
     companion object{
         private var INSTANCE: WhenaboutRepository? = null
 
