@@ -84,7 +84,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/text_date"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/birthday_button"
                 android:id="@+id/time_clock"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -95,11 +95,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/time_clock"
                 app:layout_constraintBottom_toTopOf="@id/spinner_time_zone"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/birthday_button"
                 android:id="@+id/text_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp" />
+
+            <ImageButton
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/spinner_time_zone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/text_date"
+                android:id="@+id/birthday_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_cake_24dp"
+                android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
 
             <Spinner
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,23 +133,25 @@
             app:layout_constraintStart_toEndOf="@id/dateTimeTimeZoneLinearLayout"
 
             android:id="@+id/imageButtonsLinearLayout">
-        <ImageButton
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/delete_button"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/birthday_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_cake_24dp"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
+
+            <ImageButton
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/delete_button"
+                app:layout_constraintStart_toStartOf="parent"
+
+                android:id="@+id/back_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
 
         <ImageButton
+            app:layout_constraintStart_toEndOf="@id/back_button"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/back_button"
-            app:layout_constraintStart_toEndOf="@id/birthday_button"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/delete_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -145,17 +159,6 @@
             android:src="@drawable/ic_delete_forever_24dp"
             android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
 
-        <ImageButton
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/delete_button"
-            android:id="@+id/back_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_baseline_arrow_back_24"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

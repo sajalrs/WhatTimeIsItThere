@@ -194,7 +194,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             listItemTimeBinding.whenabout = this.whenabout
             listItemTimeBinding.isEditable = false
             listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
-            listItemTimeBinding.photoFile = binding.whenaboutListViewModel.getPhotoFile(whenabout)
+            listItemTimeBinding.photoFile = binding.whenaboutListViewModel?.getPhotoFile(whenabout)
             listItemTimeBinding.executePendingBindings()
         }
 
