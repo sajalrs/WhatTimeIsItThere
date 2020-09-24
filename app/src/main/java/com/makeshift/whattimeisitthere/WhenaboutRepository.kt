@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.makeshift.whattimeisitthere.database.WhenaboutDatabase
+import java.io.File
 import java.lang.IllegalStateException
 import java.util.*
 import java.util.concurrent.Executors
@@ -20,6 +21,8 @@ class WhenaboutRepository private constructor(context: Context){
 
     private val whenaboutDao = database.whenaboutDao()
     private val executor = Executors.newSingleThreadExecutor()
+    private val filesDir = context.applicationContext.filesDir
+
 
     fun getWhenabouts():LiveData<List<Whenabout>> = whenaboutDao.getWhenabouts()
 
@@ -44,6 +47,8 @@ class WhenaboutRepository private constructor(context: Context){
             whenaboutDao.removeWhenabout(whenabout)
         }
     }
+
+    fun getPhotoFile(whenabout: Whenabout): File = File(filesDir, whenabout.photoFileName)
 
     companion object{
         private var INSTANCE: WhenaboutRepository? = null
