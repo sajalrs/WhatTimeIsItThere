@@ -1,7 +1,11 @@
 package com.makeshift.whattimeisitthere
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -21,6 +25,7 @@ import java.util.*
 private const val TAG = "WhenaboutListFragment"
 private const val DIALOG_DATE = "DialogDate"
 private const val REQUEST_DATE = 0;
+private const val REQUEST_PHOTO = 2;
 class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
     private lateinit var binding: FragmentWhenaboutListBinding
@@ -196,7 +201,44 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
             listItemTimeBinding.photoFile = binding.whenaboutListViewModel?.getPhotoFile(whenabout)
             listItemTimeBinding.photoUri = FileProvider.getUriForFile(requireActivity(),
-            "com.makeshift.whattimeisitthere.fileprovider", listItemTimeBinding.photoFile)
+            "com.makeshift.whattimeisitthere.fileprovider", listItemTimeBinding.photoFile!!)
+
+            listItemTimeBinding.profilePicture.apply {
+                val packageManager = requireActivity().packageManager
+
+                val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                val resolvedActivity: ResolveInfo? =
+                    packageManager.resolveActivity(captureImage,
+                    PackageManager.MATCH_DEFAULT_ONLY)
+                if(resolvedActivity == null){
+                    isEnabled = true
+                }
+
+                setOnClickListener{
+                    captureImage.putExtra(MediaStore.EXTRA_OUTPUT, listItemTimeBinding.photoUri)
+
+                    val cameraActivities: List<ResolveInfo> =
+                        packageManager.queryIntentActivities(captureImage,
+                        PackageManager.MATCH_DEFAULT_ONLY)
+
+                    for(cameraActivity in cameraActivities){
+                        requireActivity().grantUriPermission(
+                            cameraActivity.activityInfo.packageName,
+                            listItemTimeBinding.photoUri,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        )
+
+                        startActivityForResult(captureImage, REQUEST_PHOTO)
+                    }
+                }
+
+
+
+            }
+
+
+
+
             listItemTimeBinding.executePendingBindings()
         }
 
