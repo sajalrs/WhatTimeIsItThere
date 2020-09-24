@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -95,7 +96,6 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
         RecyclerView.Adapter<WhenaboutHolder>() {
 
         private var current: Toggleable? = null
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
                 WhenaboutHolder {
             val listItemTimeBinding = DataBindingUtil.inflate<ListItemTimeBinding>(
@@ -195,6 +195,8 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             listItemTimeBinding.isEditable = false
             listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
             listItemTimeBinding.photoFile = binding.whenaboutListViewModel?.getPhotoFile(whenabout)
+            listItemTimeBinding.photoUri = FileProvider.getUriForFile(requireActivity(),
+            "com.makeshift.whattimeisitthere.fileprovider", listItemTimeBinding.photoFile)
             listItemTimeBinding.executePendingBindings()
         }
 
