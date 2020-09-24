@@ -1,5 +1,6 @@
 package com.makeshift.whattimeisitthere
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
@@ -115,6 +116,13 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             val backButton = holder.itemView.back_button
             val birthdayButton = holder.itemView.birthday_button
             val deleteButton = holder.itemView.delete_button
+
+            if(position%2 == 1){
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            } else {
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFFAF8FD"))
+            }
+
             fun disableEdit(){
                 current!!.disableEdit()
                 binding.whenaboutListViewModel?.lastEdited = -1

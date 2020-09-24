@@ -1,80 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <import type="android.view.View"/>
-        <import type="java.util.Calendar"/>
+
+        <import type="android.view.View" />
+
+        <import type="java.util.Calendar" />
+
         <variable
             name="whenabout"
-            type="com.makeshift.whattimeisitthere.Whenabout"/>
+            type="com.makeshift.whattimeisitthere.Whenabout" />
+
         <variable
             name="isEditable"
             type="java.lang.Boolean" />
     </data>
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/profilePicture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/nameEditNameLinearLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@android:drawable/ic_menu_camera"
+            android:background="@android:color/transparent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/profilePicture"
+            app:layout_constraintEnd_toStartOf="@id/dateTimeTimeZoneLinearLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/nameEditNameLinearLayout">
         <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{whenabout.name}"
-            android:visibility="@{isEditable ? View.GONE : View.VISIBLE }"
             android:textSize="14sp"
-            />
+            android:visibility="@{isEditable ? View.GONE : View.VISIBLE }" />
+
         <EditText
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/edit_text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{whenabout.name}"
             android:textSize="14sp"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintEnd_toStartOf="@id/imageButtonsLinearLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/nameEditNameLinearLayout"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/dateTimeTimeZoneLinearLayout">
+
             <TextClock
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_date"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/time_clock"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:timeZone="@{whenabout.timeZone.ID}"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:timeZone="@{whenabout.timeZone.ID}" />
+
             <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/time_clock"
+                app:layout_constraintBottom_toTopOf="@id/spinner_time_zone"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/text_date"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <Spinner
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/spinner_time_zone"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
-                />
-        </LinearLayout>
-
-        <ImageButton
-            android:layout_width="wrap_content"
+                app:layout_constraintHorizontal_bias="0"
+                android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dateTimeTimeZoneLinearLayout"
+
+            android:id="@+id/imageButtonsLinearLayout">
+        <ImageButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/delete_button"
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/birthday_button"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
-            android:src="@drawable/ic_cake_24dp"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_cake_24dp"
+            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/back_button"
+            app:layout_constraintStart_toEndOf="@id/birthday_button"
             android:id="@+id/delete_button"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
-            android:src="@drawable/ic_delete_forever_24dp"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_delete_forever_24dp"
+            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/delete_button"
             android:id="@+id/back_button"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}"
-            android:src="@drawable/ic_baseline_arrow_back_24"/>
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
