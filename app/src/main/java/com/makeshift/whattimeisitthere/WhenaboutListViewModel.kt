@@ -1,6 +1,7 @@
 package com.makeshift.whattimeisitthere
 
 import androidx.lifecycle.ViewModel
+import java.io.File
 
 class WhenaboutListViewModel: ViewModel() {
 
@@ -19,5 +20,9 @@ class WhenaboutListViewModel: ViewModel() {
 
     fun deleteWhenabout(whenabout: Whenabout){
         whenaboutRepository.deleteWhenabout(whenabout)
+    }
+
+    fun getPhotoFile(whenabout: Whenabout): File {
+        return whenaboutRepository.getPhotoFile(whenabout)
     }
 }
