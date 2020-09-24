@@ -12,6 +12,11 @@
             type="com.makeshift.whattimeisitthere.Whenabout" />
 
         <variable
+            name="photoFile"
+            type="java.io.File" />
+
+
+        <variable
             name="isEditable"
             type="java.lang.Boolean" />
     </data>

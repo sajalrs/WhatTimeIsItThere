@@ -73,6 +73,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             viewLifecycleOwner,
             Observer { whenabouts ->
                 whenabouts?.let {
+
                     updateUI(whenabouts)
                 }
             }
@@ -116,6 +117,8 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             val backButton = holder.itemView.back_button
             val birthdayButton = holder.itemView.birthday_button
             val deleteButton = holder.itemView.delete_button
+
+
 
             if(position%2 == 1){
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
@@ -191,6 +194,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             listItemTimeBinding.whenabout = this.whenabout
             listItemTimeBinding.isEditable = false
             listItemTimeBinding.textDate.text = getDateThere(whenabout.timeZone)
+            listItemTimeBinding.photoFile = binding.whenaboutListViewModel.getPhotoFile(whenabout)
             listItemTimeBinding.executePendingBindings()
         }
 
