@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <data>
 
         <import type="android.view.View" />
-
         <import type="java.util.Calendar" />
+        <import type="com.makeshift.whattimeisitthere.PictureUtilsKt"/>
 
         <variable
             name="whenabout"
@@ -33,14 +34,14 @@
         android:orientation="horizontal"
         android:padding="5dp">
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/profilePicture"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/nameEditNameLinearLayout"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@android:drawable/ic_menu_camera"
+            app:imageBitmap="@{photoFile.exists()? PictureUtilsKt.getScaledBitmap(photoFile.path, 200,200): @android:drawable/ic_menu_camera}"
             android:background="@android:color/transparent"/>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

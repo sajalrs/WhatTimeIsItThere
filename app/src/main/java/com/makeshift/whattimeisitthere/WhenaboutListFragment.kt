@@ -3,13 +3,18 @@ package com.makeshift.whattimeisitthere
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import androidx.core.content.FileProvider
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +34,8 @@ private const val REQUEST_PHOTO = 2;
 class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
     private lateinit var binding: FragmentWhenaboutListBinding
-
+    private lateinit var uriArray: MutableList<Uri?>
+    private var resultItemView = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -37,12 +43,15 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
     }
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        uriArray = mutableListOf<Uri?>();
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_whenabout_list, container, false)
 
@@ -86,6 +95,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
         )
 
     }
+
 
     private fun updateUI(whenabouts: List<Whenabout>) {
         binding.recyclerView.adapter = WhenaboutAdapter(whenabouts)
@@ -177,10 +187,38 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        uriArray.map { item -> {
+            requireActivity().revokeUriPermission(item, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        } }
+        uriArray.clear()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when {
+            requestCode == REQUEST_PHOTO -> {
+                uriArray.map { item ->
+                    {
+                        requireActivity().revokeUriPermission(
+                            item,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        )
+
+                    }
+                }
+                uriArray.clear()
+                binding.recyclerView.adapter?.notifyItemChanged(resultItemView)
+
+            }
+        }
+    }
 
     private inner class WhenaboutHolder(private val listItemTimeBinding: ListItemTimeBinding) :
         RecyclerView.ViewHolder(listItemTimeBinding.root),Toggleable {
         private lateinit var whenabout: Whenabout
+
 
         fun getDateThere(timeZone: TimeZone): String{
 
@@ -216,7 +254,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
                 setOnClickListener{
                     captureImage.putExtra(MediaStore.EXTRA_OUTPUT, listItemTimeBinding.photoUri)
-
+                    listItemTimeBinding.photoUri.let{node -> uriArray.add(node)}
                     val cameraActivities: List<ResolveInfo> =
                         packageManager.queryIntentActivities(captureImage,
                         PackageManager.MATCH_DEFAULT_ONLY)
@@ -227,9 +265,10 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
                             listItemTimeBinding.photoUri,
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                         )
-
+                        resultItemView = adapterPosition
                         startActivityForResult(captureImage, REQUEST_PHOTO)
                     }
+
                 }
 
 
@@ -281,10 +320,17 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             listItemTimeBinding.executePendingBindings()
         }
 
+
+
     }
 
     override fun onDateSelected(whenabout: Whenabout) {
        binding.whenaboutListViewModel?.saveWhenabout(whenabout)
     }
+
+
+
+
+
 
 }
