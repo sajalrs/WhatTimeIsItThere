@@ -3,7 +3,10 @@ package com.makeshift.whattimeisitthere
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.Point
+import android.media.ExifInterface
+import java.io.IOException
 
 
 fun getScaledBitmap(path: String, destWidth: Int, destHeight: Int):
@@ -36,7 +39,7 @@ fun getScaledBitmap(path: String, destWidth: Int, destHeight: Int):
     options = BitmapFactory.Options()
     options.inSampleSize = inSampleSize
 
-    return BitmapFactory.decodeFile(path, options)
+    return rotateImageIfRequired(BitmapFactory.decodeFile(path, options), path)
 }
 
 fun getScaledBitmap(path: String, activity: Activity): Bitmap {
@@ -45,4 +48,28 @@ fun getScaledBitmap(path: String, activity: Activity): Bitmap {
     return getScaledBitmap(path, size.x, size.y)
 }
 
+@Throws(IOException::class)
+fun rotateImageIfRequired(img: Bitmap, path: String): Bitmap {
+    val ei = ExifInterface(path)
+    val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
 
+    when(orientation){
+        ExifInterface.ORIENTATION_ROTATE_90 ->
+            return rotateImage(img, 90)
+        ExifInterface.ORIENTATION_ROTATE_180 ->
+            return rotateImage(img, 180)
+        ExifInterface.ORIENTATION_ROTATE_270 ->
+            return rotateImage(img, 270)
+        else ->
+            return img
+
+    }
+}
+
+fun rotateImage(img: Bitmap, degree: Int): Bitmap{
+    val matrix = Matrix()
+    matrix.postRotate(degree.toFloat())
+    val rotatedImage = Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
+    img.recycle()
+    return rotatedImage
+}
