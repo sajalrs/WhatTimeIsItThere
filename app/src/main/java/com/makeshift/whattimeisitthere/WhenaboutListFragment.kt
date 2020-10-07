@@ -153,6 +153,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
                 binding.whenaboutListViewModel?.lastEdited = position
             }
 
+
             holder.bind(whenabout)
 
             if(binding.whenaboutListViewModel?.lastEdited == position){
@@ -164,12 +165,19 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
                     enableEdit()
                 } else if(current != holder){
                     disableEdit()
+                    holder.disableDelete()
                 }
+                true
+            }
+
+            holder.itemView.setOnLongClickListener{
+                holder.enableDelete()
                 true
             }
 
             backButton.setOnClickListener{
                 disableEdit()
+                holder.disableDelete()
             }
 
             birthdayButton.setOnClickListener{
@@ -312,6 +320,13 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
             listItemTimeBinding.executePendingBindings()
         }
 
+        fun enableDelete(){
+            listItemTimeBinding.isDeleteable = true
+        }
+
+        fun disableDelete(){
+            listItemTimeBinding.isDeleteable = false
+        }
         override fun disableEdit(){
             listItemTimeBinding.isEditable = false
             whenabout.name = listItemTimeBinding.editTextName.text.toString()
