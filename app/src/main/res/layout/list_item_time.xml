@@ -22,6 +22,10 @@
             type="java.lang.Boolean" />
 
         <variable
+            name="isDeleteable"
+            type="java.lang.Boolean"/>
+
+        <variable
             name="photoUri"
             type="android.net.Uri" />
     </data>
@@ -151,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_baseline_arrow_back_24"
-                android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{isEditable  ? View.VISIBLE : View.GONE}" />
 
         <ImageButton
             app:layout_constraintStart_toEndOf="@id/back_button"
@@ -163,7 +167,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_delete_forever_24dp"
-            android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{isEditable &amp;&amp; isDeleteable? View.VISIBLE : View.GONE}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
