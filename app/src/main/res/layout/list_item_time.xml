@@ -59,7 +59,7 @@
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{whenabout.name}"
+            android:text='@{whenabout.name.isEmpty ? "Enter Name" : whenabout.name}'
             android:textSize="14sp"
             android:visibility="@{isEditable ? View.GONE : View.VISIBLE }" />
 
@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:text="@{whenabout.name}"
             android:textSize="14sp"
+            android:hint="Enter Name"
             android:visibility="@{isEditable ? View.VISIBLE : View.GONE}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
