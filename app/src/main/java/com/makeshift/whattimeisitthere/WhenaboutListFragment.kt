@@ -36,15 +36,13 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
     private lateinit var binding: FragmentWhenaboutListBinding
     private lateinit var uriArray: MutableList<Uri?>
     private var resultItemView = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
 
     }
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -172,6 +170,7 @@ class WhenaboutListFragment : Fragment(),  DatePickerFragment.Callbacks {
 
             holder.itemView.setOnLongClickListener{
                 holder.enableDelete()
+                enableEdit()
                 true
             }
 
