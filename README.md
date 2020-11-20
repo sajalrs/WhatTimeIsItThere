@@ -49,3 +49,4 @@ Pressing the birthday cake icon opens a datepicker where you can select your fri
 </p>
 </br>
 </br>
+Pressing the camera placeholder or a picture launches the default camera application so you can take and store your friend's picture.
