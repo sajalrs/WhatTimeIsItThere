@@ -8,8 +8,6 @@
 </br>
 Not a good time to call Harry Potter
 </p>
-</br>
-</br>
 <p align="center">
 <img src="https://i.imgur.com/ZdIpsYl.jpg" height="250">
 </br>
@@ -25,16 +23,12 @@ The application is written in Kotlin and XML. It uses Databinding and Binding Ad
 </br>
 Pressing an entry allows you to edit its contents
 </p>
-</br>
-</br>
 <p align="center">
 <img src="https://i.imgur.com/YSyG1zH.jpg" width="250">
 </br>
 </br>
 Long pressing an entry allows you to delete it
 </p>
-</br>
-</br>
 <p align="center">
 <img src="https://i.imgur.com/XthHKuE.jpg" width="250">
 </br>
@@ -47,8 +41,6 @@ Pressing the + on the top right adds a new entry which can be edited
 </br>
 Your friend's timezone can be picked from a dropdown menu
 </p>
-</br>
-</br>
 <p align="center">
 <img src="https://i.imgur.com/I9nzyf0.jpg" width="250">
 </br>
